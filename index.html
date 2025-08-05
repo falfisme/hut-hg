@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Form Absensi Lokasi</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center px-4">
+  <div class="w-full max-w-md bg-white p-6 rounded-2xl shadow-lg">
+    <h2 class="text-2xl font-bold text-center text-gray-800 mb-6">Form Absensi</h2>
+    <form id="absenForm" class="space-y-4" method="POST" action="https://script.google.com/macros/s/AKfycbxd7XAwBoRVf6R4zSGOI91bXD09iE-ljsaBcTzgSBMz8O-nA3UjkOU5gTGEKvpXJ1_NgQ/exec">
+      <div>
+        <label class="block text-gray-700 font-medium mb-1">Nama</label>
+        <input type="text" name="nama" required class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+      </div>
+      <div>
+        <label class="block text-gray-700 font-medium mb-1">NRP</label>
+        <input type="text" name="nrp" required class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+      </div>
+      <div>
+        <label class="block text-gray-700 font-medium mb-1">Entitas</label>
+        <select name="entitas" required class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+          <option value="">-- Pilih Entitas --</option>
+          <option value="Kantor Pusat">Kantor Pusat</option>
+          <option value="Cabang A">Cabang A</option>
+          <option value="Cabang B">Cabang B</option>
+        </select>
+      </div>
+
+      <!-- Hidden Location Fields -->
+      <input type="hidden" name="latitude" id="latitude">
+      <input type="hidden" name="longitude" id="longitude">
+
+      <button type="submit" class="w-full bg-blue-600 text-white font-semibold py-2 rounded-lg hover:bg-blue-700 transition">
+        Submit Absensi
+      </button>
+    </form>
+
+    <p id="statusMsg" class="text-center text-sm text-gray-600 mt-4"></p>
+  </div>
+
+  <script>
+    // Ambil lokasi saat halaman dibuka
+    window.onload = () => {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          position => {
+            document.getElementById('latitude').value = position.coords.latitude;
+            document.getElementById('longitude').value = position.coords.longitude;
+          },
+          error => {
+            document.getElementById('statusMsg').textContent = "Gagal mengambil lokasi: " + error.message;
+          }
+        );
+      } else {
+        document.getElementById('statusMsg').textContent = "Geolocation tidak didukung di perangkat ini.";
+      }
+    };
+
+    // Optional: Tampilkan pesan saat form terkirim
+    document.getElementById('absenForm').addEventListener('submit', function() {
+      document.getElementById('statusMsg').textContent = "Mengirim data...";
+    });
+  </script>
+</body>
+</html>
