@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Form Absen Lokasi</title>
+  <script>
+    function getLocationAndSubmit() {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function(position) {
+          document.getElementById("latitude").value = position.coords.latitude;
+          document.getElementById("longitude").value = position.coords.longitude;
+          document.getElementById("absenForm").submit();
+        });
+      } else {
+        alert("Geolocation tidak didukung browser ini.");
+      }
+    }
+  </script>
+</head>
+<body>
+  <h2>Form Absen Lokasi</h2>
+  <form id="absenForm" method="POST" action="https://script.google.com/macros/s/AKfycbxd7XAwBoRVf6R4zSGOI91bXD09iE-ljsaBcTzgSBMz8O-nA3UjkOU5gTGEKvpXJ1_NgQ/exec">
+    <label>Nama:</label><br />
+    <input type="text" name="nama" required /><br /><br />
+
+    <label>NRP:</label><br />
+    <input type="text" name="nrp" required /><br /><br />
+
+    <label>Entitas:</label><br />
+    <select name="entitas" required>
+      <option value="">-- Pilih Entitas --</option>
+      <option value="PT A">PT A</option>
+      <option value="PT B">PT B</option>
+      <option value="PT C">PT C</option>
+    </select><br /><br />
+
+    <input type="hidden" id="latitude" name="latitude" />
+    <input type="hidden" id="longitude" name="longitude" />
+
+    <button type="button" onclick="getLocationAndSubmit()">Absen Sekarang</button>
+  </form>
+</body>
+</html>
